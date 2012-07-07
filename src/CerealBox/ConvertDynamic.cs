@@ -8,9 +8,25 @@ namespace CerealBox
 {
     public static class ConvertDynamic
     {
+        static readonly IDictionary<string, string> AttributeDictionary = new Dictionary<string, string>();
+
         public static string ToXml(IDictionary<string, object> dictionary, string elementName)
         {
-            var stringBuilder = new StringBuilder("<{0}>".Fmt(elementName));
+            foreach (var kvp in dictionary.Where(x => x.Value is IDictionary<string, object>))
+            {
+                var objects = (IDictionary<string, object>)kvp.Value;
+                var attributeMarker = "_Attribute";
+                var attributeKvps = objects.Where(x => x.Key.EndsWith(attributeMarker));
+                attributeKvps.Select(x => new KeyValuePair<string, string>(kvp.Key, @" {0}=""{1}""".Fmt(x.Key.Replace(attributeMarker, string.Empty), x.Value))).ToList().ForEach(AttributeDictionary.Add);
+                attributeKvps.Select(x => x.Key).ToList().ForEach(x => objects.Remove(x));
+            }
+            string attributes = null;
+            if (AttributeDictionary.ContainsKey(elementName))
+            {
+                attributes = AttributeDictionary[elementName];
+                AttributeDictionary.Remove(elementName);
+            }
+            var stringBuilder = new StringBuilder("<{0}{1}>".Fmt(elementName, attributes));
             foreach (var kvp in dictionary)
             {
                 if (kvp.Value is IDictionary<string, object>)

@@ -17,24 +17,6 @@ namespace CerealBox
 
         }
 
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            if (binder.Name == "SetAttribute" && args.Any())
-            {
-                var xElements = xElement.Elements().Where(x => x.Name.LocalName == args[0].ToString());
-                foreach (var element in xElements)
-                {
-                    var parent = element.Parent;
-                    var attribute = new XAttribute(element.Name.LocalName, element.Value);
-                    parent.Add(attribute);
-                    element.Remove();
-                }
-                result = this;
-                return true;
-            }
-            return base.TryInvokeMember(binder, args, out result);
-        }
-
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = null;

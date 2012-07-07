@@ -1,12 +1,12 @@
-using System;
 using System.Dynamic;
+using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
 
 namespace CerealBox.Tests
 {
     [TestFixture]
-    class When_converting_dynamic_to_xml
+    class When_converting_dynamic_to_xml_with_attribute
     {
         string xml = @"
 <animals>
@@ -22,9 +22,7 @@ namespace CerealBox.Tests
     <name>Marty</name>
     <breed>whippet</breed>
   </dog>
-  <cat>
-<name>Matilda</name>
-</cat>
+  <cat name=""Matilda""></cat>
 </animals>";
         dynamic dynamic;
 
@@ -44,7 +42,7 @@ namespace CerealBox.Tests
             var dogs = new[] { dog1, dog2 };
             dynamic.dog = dogs;
             dynamic.cat = new ExpandoObject();
-            dynamic.cat.name = "Matilda";
+            dynamic.cat.name_Attribute = "Matilda";
         }
 
         [Test]
