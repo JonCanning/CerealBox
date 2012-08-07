@@ -26,7 +26,7 @@ namespace CerealBox
             if (jsonObject.All(x => x.Key != binder.Name))
                 return false;
 
-            var value = jsonObject.Get(binder.Name);
+            var value = jsonObject.Child(binder.Name);
             if (value.StartsWith("[{\"") && value.EndsWith("}]"))
                 result = JsonArrayObjects.Parse(value).Select(x => new DynamicJson(x)).ToArray();
             else
