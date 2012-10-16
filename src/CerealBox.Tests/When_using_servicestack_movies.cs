@@ -79,4 +79,37 @@ namespace CerealBox.Tests
         }
 
     }
+
+    [TestFixture]
+    class When_
+    {
+        [Test]
+        public void Then_()
+        {
+            var t = new Tweeter();
+            t.GetTweetsForUser("joncanning", objects => Console.WriteLine(objects));
+        }
+    }
+
+    class Tweeter
+    {
+        const string baseUrl = "https://api.twitter.com/1/statuses/user_timeline.json?screen_name=";
+
+        public void GetTweetsForUser(string user, Action<dynamic[]> callback)
+        {
+            var url = baseUrl + user;
+            var webClient = new WebClient();
+            webClient.DownloadStringCompleted += (sender, e) =>
+            {
+                dynamic[] result = e.Result.ToDynamic();
+                callback(result);
+                foreach (var tweet in result)
+                {
+
+                }
+
+            };
+            webClient.DownloadString(url);
+        }
+    }
 }

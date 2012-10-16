@@ -1,30 +1,49 @@
 using NUnit.Framework;
+using System.Linq;
 
 namespace CerealBox.Tests
 {
     [TestFixture]
-    class When_using_dynamic_json
+    class When_converting_xml_to_dynamic
     {
         dynamic dynamic;
 
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            var json = @"{""animals"":{""badger"":{""name"":""Steve Badger"",""age"":3},""dog"":[{""name"":""Rufus"",""breed"":""labrador""},{""name"":""Marty"",""breed"":""whippet""}],""cat"":{""name"":""Matilda""}}}";
-            dynamic = json.ToDynamic();
+            var xml = @"
+<animals>
+  <badger>
+    <name>Steve</name>
+    <age>3</age>
+  </badger>
+  <dog>
+    <name>Rufus</name>
+    <breed>labrador</breed>
+  </dog>
+  <dog>
+    <name>Marty</name>
+    <breed>whippet</breed>
+  </dog>
+    <cat name=""Matilda"">
+    <foods>biscuits</foods>
+    <foods>meat</foods>
+</cat>
+</animals>";
+            dynamic = xml.ToDynamic();
         }
 
         [Test]
         public void Then_badger_name_should_be_Steve()
         {
             string name = dynamic.animals.badger.name;
-            Assert.AreEqual("Steve Badger", name);
+            Assert.AreEqual("Steve", name);
         }
 
         [Test]
         public void Then_badger_name_ToString_should_be_Steve()
         {
-            Assert.AreEqual("Steve Badger", dynamic.animals.badger.name.ToString());
+            Assert.AreEqual("Steve", dynamic.animals.badger.name.ToString());
         }
 
         [Test]
@@ -60,6 +79,14 @@ namespace CerealBox.Tests
         {
             string name = dynamic.animals.cat.name;
             Assert.AreEqual("Matilda", name);
+        }
+
+        [Test]
+        public void Then_cat_should_have_foods()
+        {
+            dynamic[] foods = dynamic.animals.cat.foods;
+            var foodsString = foods.Select(x => x.ToString());
+            Assert.AreEqual(new[] { "biscuits", "meat" }, foodsString);
         }
     }
 }

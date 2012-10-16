@@ -50,9 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="When_converting_dynamic_to_json.cs" />
     <Compile Include="When_converting_dynamic_to_xml.cs" />
-    <Compile Include="When_using_dynamic_json.cs" />
+    <Compile Include="When_converting_json_to_dynamic.cs" />
     <Compile Include="When_using_dynamic_namevaluecollection.cs" />
-    <Compile Include="When_using_dynamic_xml.cs" />
+    <Compile Include="When_converting_xml_to_dynamic.cs" />
     <Compile Include="When_using_servicestack_movies.cs" />
   </ItemGroup>
   <ItemGroup>
