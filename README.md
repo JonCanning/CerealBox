@@ -3,7 +3,7 @@ Convert JSON or XML to dynamic:
 var json = @"{""animals"":{""badger"":{""name"":""Steve Badger"",""age"":3},""dog"":[{""name"":""Rufus"",""breed"":""labrador""},{""name"":""Marty"",""breed"":""whippet""}],""cat"":{""name"":""Matilda""}}}";
 dynamic dynamic = json.ToDynamic();
 
-Retreive a property:
+Retrieve a property:
 string name = dynamic.animals.badger.name;
 Assert.AreEqual("Steve Badger", name);
 
