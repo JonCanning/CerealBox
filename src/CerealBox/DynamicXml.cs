@@ -1,5 +1,6 @@
 using System.Dynamic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using ServiceStack.Text;
 
@@ -9,7 +10,15 @@ namespace CerealBox
     {
         readonly XElement xElement;
 
-        public DynamicXml(string xml) : this(XElement.Parse(xml)) { }
+        public DynamicXml(string xml) : this(XElement.Parse(StripCharactersNotSupportedByDynamics(xml)))
+        {
+            
+        }
+
+        private static string StripCharactersNotSupportedByDynamics(string xml)
+        {
+            return Regex.Replace(xml, @"(?<=.)-(?=.)", string.Empty, RegexOptions.Multiline).Trim();
+        }
 
         DynamicXml(XElement xElement)
         {
