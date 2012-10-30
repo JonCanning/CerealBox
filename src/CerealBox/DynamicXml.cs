@@ -10,15 +10,13 @@ namespace CerealBox
     {
         readonly XElement xElement;
 
-        public DynamicXml(string xml) : this(XElement.Parse(StripCharactersNotSupportedByDynamics(xml)))
+        public DynamicXml(string xml)
+            : this(XElement.Parse(xml))
         {
-            
+
         }
 
-        private static string StripCharactersNotSupportedByDynamics(string xml)
-        {
-            return Regex.Replace(xml, @"(?<=.)-(?=.)", string.Empty, RegexOptions.Multiline).Trim();
-        }
+       
 
         DynamicXml(XElement xElement)
         {
@@ -29,10 +27,10 @@ namespace CerealBox
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = null;
-            if (xElement.Elements().All(x => x.Name.LocalName != binder.Name) && binder.Name != xElement.Name.LocalName)
+            if (xElement.Elements().All(x => x.DynamicCompatableName() != binder.Name) && binder.Name != xElement.DynamicCompatableName())
                 return false;
 
-            var xElements = xElement.Elements().Where(x => x.Name.LocalName == binder.Name);
+            var xElements = xElement.Elements().Where(x => x.DynamicCompatableName() == binder.Name);
             if (xElements.Count() == 1)
             {
                 var element = xElements.First();
@@ -41,7 +39,7 @@ namespace CerealBox
                     element.Add(new XElement(xAttribute.Name, xAttribute.Value));
                     xAttribute.Remove();
                 }
-                var childElements = element.Elements().Select(x => x.Name.LocalName);
+                var childElements = element.Elements().Select(x => x.DynamicCompatableName());
                 if (childElements.Count() > 1 && childElements.Distinct().Count() == 1)
                 {
                     result = element.Elements().Select(x => new DynamicXml(x)).ToArray();
@@ -49,7 +47,7 @@ namespace CerealBox
                 else
                     result = new DynamicXml(element);
             }
-            else if (!xElements.Any() && binder.Name == xElement.Name.LocalName)
+            else if (!xElements.Any() && binder.Name == xElement.DynamicCompatableName())
                 result = this;
             else
                 result = xElements.Select(x => new DynamicXml(x)).ToArray();
