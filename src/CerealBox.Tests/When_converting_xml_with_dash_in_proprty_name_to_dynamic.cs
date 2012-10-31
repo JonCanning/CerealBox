@@ -43,5 +43,4 @@ namespace CerealBox.Tests
             Assert.AreEqual(3, age);
         }
     }
-    
 }
