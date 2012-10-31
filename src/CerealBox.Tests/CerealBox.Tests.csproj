@@ -46,8 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="When_converting_json_with_dash_in_property_name_to_dynamic.cs" />
     <Compile Include="When_converting_xml_with_dash_in_node_text_to_dynamic.cs" />
-    <Compile Include="When_converting_xml_with_dash_in_proprty_name_to_dynamic.cs" />
+    <Compile Include="When_converting_xml_with_dash_in_property_name_to_dynamic.cs" />
     <Compile Include="When_converting_dynamic_to_xml_with_attribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="When_converting_dynamic_to_json.cs" />
