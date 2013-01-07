@@ -23,10 +23,10 @@ namespace CerealBox
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = null;
-            if (jsonObject.All(x => x.Key != binder.Name))
+            if (jsonObject.All(x => x.Key.ToDynamicCompatableString() != binder.Name))
                 return false;
 
-            var value = jsonObject.Child(binder.Name);
+            var value = jsonObject.Single(x => x.Key.ToDynamicCompatableString() == binder.Name).Value;
             if (value.StartsWith("[{\"") && value.EndsWith("}]"))
                 result = JsonArrayObjects.Parse(value).Select(x => new DynamicJson(x)).ToArray();
             else

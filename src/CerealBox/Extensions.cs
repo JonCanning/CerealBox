@@ -12,6 +12,11 @@ namespace CerealBox
             input = Regex.Replace(input, @">\s*<", "><").Trim();
             return input;
         }
+
+        public static string ToDynamicCompatableString(this string xml)
+        {
+            return Regex.Replace(xml, @"(?<=.)-(?=.)", string.Empty, RegexOptions.Multiline).Trim();
+        }
     }
 
     public static class XElementExtensions
@@ -26,12 +31,9 @@ namespace CerealBox
     {
         public static string DynamicCompatableName(this XName input)
         {
-            return StripCharactersNotSupportedByDynamics(input.LocalName);
+            return input.LocalName.ToDynamicCompatableString();
         }
 
-        private static string StripCharactersNotSupportedByDynamics(string xml)
-        {
-            return Regex.Replace(xml, @"(?<=.)-(?=.)", string.Empty, RegexOptions.Multiline).Trim();
-        }
+        
     }
 }
