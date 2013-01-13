@@ -1,8 +1,7 @@
+using ServiceStack.Text;
 using System.Dynamic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using ServiceStack.Text;
 
 namespace CerealBox
 {
@@ -10,18 +9,21 @@ namespace CerealBox
     {
         readonly XElement xElement;
 
-        public DynamicXml(string xml)
-            : this(XElement.Parse(xml))
-        {
-
-        }
-
-       
+        public DynamicXml(string xml) : this(XElement.Parse(xml)) { }
 
         DynamicXml(XElement xElement)
         {
             this.xElement = xElement;
+            ConvertAttribtutesToElements(xElement);
+        }
 
+        static void ConvertAttribtutesToElements(XElement xElement)
+        {
+            foreach (var xAttribute in xElement.Attributes())
+            {
+                xElement.Add(new XElement(xAttribute.Name, xAttribute.Value));
+                xAttribute.Remove();
+            }
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -34,11 +36,7 @@ namespace CerealBox
             if (xElements.Count() == 1)
             {
                 var element = xElements.First();
-                foreach (var xAttribute in element.Attributes())
-                {
-                    element.Add(new XElement(xAttribute.Name, xAttribute.Value));
-                    xAttribute.Remove();
-                }
+                ConvertAttribtutesToElements(element);
                 var childElements = element.Elements().Select(x => x.DynamicCompatableName());
                 if (childElements.Count() > 1 && childElements.Distinct().Count() == 1)
                 {
