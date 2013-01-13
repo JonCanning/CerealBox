@@ -3,7 +3,7 @@ using NUnit.Framework;
 namespace CerealBox.Tests
 {
     [TestFixture]
-    class When_convert_xml_to_dynamic_with_array_of_items_with_attributes
+    class When_converting_xml_to_dynamic_with_array_of_items_with_attributes
     {
         dynamic dynamic;
 

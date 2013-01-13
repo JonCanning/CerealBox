@@ -14,10 +14,10 @@ namespace CerealBox
         DynamicXml(XElement xElement)
         {
             this.xElement = xElement;
-            ConvertAttribtutesToElements(xElement);
+            ConvertAttributesToElements(xElement);
         }
 
-        static void ConvertAttribtutesToElements(XElement xElement)
+        static void ConvertAttributesToElements(XElement xElement)
         {
             foreach (var xAttribute in xElement.Attributes())
             {
@@ -36,7 +36,7 @@ namespace CerealBox
             if (xElements.Count() == 1)
             {
                 var element = xElements.First();
-                ConvertAttribtutesToElements(element);
+                ConvertAttributesToElements(element);
                 var childElements = element.Elements().Select(x => x.DynamicCompatableName());
                 if (childElements.Count() > 1 && childElements.Distinct().Count() == 1)
                 {
