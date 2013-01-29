@@ -17,7 +17,7 @@ namespace CerealBox.Tests
     <name>Steve</name>
     <age>3</age>
   </badger>
-  <dog>
+  <dog class=""Pedigree"">
     <name>Rufus</name>
     <breed>labrador</breed>
   </dog>
@@ -68,10 +68,24 @@ namespace CerealBox.Tests
         }
 
         [Test]
+        public void Then_the_first_dogs_class_should_be_Pedigree()
+        {
+            string @class = dynamic.animals.dog[0].@class;
+            Assert.AreEqual("Pedigree", @class);
+        }
+
+        [Test]
         public void Then_the_second_dog_should_be_a_whippet()
         {
             string breed = dynamic.animals.dog[1].breed;
             Assert.AreEqual("whippet", breed);
+        }
+
+        [Test]
+        public void Then_the_second_dogs_class_should_be_a_Mongrel()
+        {
+            string @class = dynamic.animals.dog[1].@class;
+            Assert.AreEqual(null, @class);
         }
 
         [Test]

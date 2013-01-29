@@ -30,7 +30,7 @@ namespace CerealBox
         {
             result = null;
             if (xElement.Elements().All(x => x.DynamicCompatableName() != binder.Name) && binder.Name != xElement.DynamicCompatableName())
-                return false;
+                return true;
 
             var xElements = xElement.Elements().Where(x => x.DynamicCompatableName() == binder.Name);
             if (xElements.Count() == 1)

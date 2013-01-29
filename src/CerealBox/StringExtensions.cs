@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
+﻿using System.Text.RegularExpressions;
 
 namespace CerealBox
 {
@@ -12,24 +10,8 @@ namespace CerealBox
             input = Regex.Replace(input, @">\s*<", "><").Trim();
             return input;
         }
-    }
 
-    public static class XElementExtensions
-    {
-        public static string DynamicCompatableName(this XElement input)
-        {
-            return input.Name.DynamicCompatableName();
-        }
-    }
-
-    public static class XNameExtensions
-    {
-        public static string DynamicCompatableName(this XName input)
-        {
-            return StripCharactersNotSupportedByDynamics(input.LocalName);
-        }
-
-        private static string StripCharactersNotSupportedByDynamics(string xml)
+        public static string ToDynamicCompatableString(this string xml)
         {
             return Regex.Replace(xml, @"(?<=.)-(?=.)", string.Empty, RegexOptions.Multiline).Trim();
         }

@@ -1,3 +1,4 @@
+using System.IO;
 using NUnit.Framework;
 using System;
 using System.Dynamic;
@@ -60,7 +61,7 @@ namespace CerealBox.Tests
         [Test]
         public void Then_movie_should_be_inserted_using_xml()
         {
-            //client.Headers.Add(HttpRequestHeader.ContentType, "application/xml");
+            client.Headers.Add(HttpRequestHeader.ContentType, "text/xml");
             dynamic movie = new ExpandoObject();
             movie.Title = "The Muppets Take Manhattan";
             movie.TagLine = "tagline";
@@ -77,6 +78,5 @@ namespace CerealBox.Tests
             string title = movies.Last().Title;
             Assert.AreEqual("The Muppets Take Manhattan", title);
         }
-
     }
 }

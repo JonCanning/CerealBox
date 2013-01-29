@@ -1,6 +1,6 @@
+using ServiceStack.Text;
 using System.Dynamic;
 using System.Linq;
-using ServiceStack.Text;
 
 namespace CerealBox
 {
@@ -24,7 +24,7 @@ namespace CerealBox
         {
             result = null;
             if (jsonObject.All(x => x.Key.ToDynamicCompatableString() != binder.Name))
-                return false;
+                return true;
 
             var value = jsonObject.Single(x => x.Key.ToDynamicCompatableString() == binder.Name).Value;
             if (value.StartsWith("[{\"") && value.EndsWith("}]"))
