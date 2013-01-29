@@ -1,7 +1,6 @@
-using System.Dynamic;
-using System.Xml;
-using System.Xml.Linq;
 using NUnit.Framework;
+using System.Dynamic;
+using System.Xml.Linq;
 
 namespace CerealBox.Tests
 {

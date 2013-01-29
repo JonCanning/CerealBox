@@ -1,7 +1,6 @@
-using System;
+using NUnit.Framework;
 using System.Dynamic;
 using System.Xml.Linq;
-using NUnit.Framework;
 
 namespace CerealBox.Tests
 {
@@ -22,7 +21,7 @@ namespace CerealBox.Tests
     <name>Marty</name>
     <breed>whippet</breed>
   </dog>
-  <cat>
+  <cat breed=""Persian"">
 <name>Matilda</name>
 </cat>
 </animals>";
@@ -45,6 +44,7 @@ namespace CerealBox.Tests
             dynamic.dog = dogs;
             dynamic.cat = new ExpandoObject();
             dynamic.cat.name = "Matilda";
+            dynamic.cat.breed_Attribute = "Persian";
         }
 
         [Test]

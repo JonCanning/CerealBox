@@ -25,7 +25,7 @@ namespace CerealBox.Tests
     <name>Marty</name>
     <breed>whippet</breed>
   </dog>
-    <cat name=""Matilda"">
+    <cat name=""Matilda"" breed=""Persian"">
     <foods>biscuits</foods>
     <foods>meat</foods>
 </cat>
@@ -79,6 +79,13 @@ namespace CerealBox.Tests
         {
             string name = dynamic.animals.cat.name;
             Assert.AreEqual("Matilda", name);
+        }
+
+        [Test]
+        public void Then_the_cats_breed_should_be_Persian()
+        {
+            string breed = dynamic.animals.cat.breed;
+            Assert.AreEqual("Persian", breed);
         }
 
         [Test]

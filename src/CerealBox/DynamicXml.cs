@@ -19,7 +19,7 @@ namespace CerealBox
 
         static void ConvertAttributesToElements(XElement xElement)
         {
-            foreach (var xAttribute in xElement.Attributes())
+            foreach (var xAttribute in xElement.Attributes().ToList())
             {
                 xElement.Add(new XElement(xAttribute.Name, xAttribute.Value));
                 xAttribute.Remove();
