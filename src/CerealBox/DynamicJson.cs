@@ -12,7 +12,7 @@ namespace CerealBox
 
         DynamicJson(string json, string name)
         {
-            jsonObject = JsonObject.Parse(json).All(x => x.Value == null) ? new JsonObject { { name, json } } : JsonObject.Parse(json);
+            jsonObject = json.StartsWith("{") ? JsonObject.Parse(json) : new JsonObject { { name, json } };
         }
 
         DynamicJson(JsonObject jsonObject)
