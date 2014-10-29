@@ -8,7 +8,7 @@ namespace CerealBox.Tests
     class When_converting_dynamic_to_xml
     {
         string xml = @"
-<animals>
+<animals location=""zoo"">
   <badger>
     <name>Steve</name>
     <age>3</age>
@@ -21,7 +21,7 @@ namespace CerealBox.Tests
     <name>Marty</name>
     <breed>whippet</breed>
   </dog>
-  <cat breed=""Persian"">
+  <cat breed=""Persian"" diet=""Low Sodium"">
 <name>Matilda</name>
 </cat>
 </animals>";
@@ -31,6 +31,7 @@ namespace CerealBox.Tests
         public void TestFixtureSetUp()
         {
             dynamic = new ExpandoObject();
+            dynamic.location_Attribute = "zoo";
             dynamic.badger = new ExpandoObject();
             dynamic.badger.name = "Steve";
             dynamic.badger.age = 3;
@@ -45,6 +46,7 @@ namespace CerealBox.Tests
             dynamic.cat = new ExpandoObject();
             dynamic.cat.name = "Matilda";
             dynamic.cat.breed_Attribute = "Persian";
+            dynamic.cat.diet_Attribute = "Low Sodium";
         }
 
         [Test]

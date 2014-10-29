@@ -8,26 +8,14 @@ namespace CerealBox
 {
     public static class ConvertDynamic
     {
-        static readonly IDictionary<string, string> AttributeDictionary = new Dictionary<string, string>();
+        const string AttributeMarker = "_Attribute";       
 
         public static string ToXml(IDictionary<string, object> dictionary, string elementName)
-        {
-            foreach (var kvp in dictionary.Where(x => x.Value is IDictionary<string, object>))
-            {
-                var objects = (IDictionary<string, object>)kvp.Value;
-                var attributeMarker = "_Attribute";
-                var attributeKvps = objects.Where(x => x.Key.EndsWith(attributeMarker));
-                attributeKvps.Select(x => new KeyValuePair<string, string>(kvp.Key, @" {0}=""{1}""".Fmt(x.Key.Replace(attributeMarker, string.Empty), x.Value))).ToList().ForEach(AttributeDictionary.Add);
-                attributeKvps.Select(x => x.Key).ToList().ForEach(x => objects.Remove(x));
-            }
-            string attributes = null;
-            if (AttributeDictionary.ContainsKey(elementName))
-            {
-                attributes = AttributeDictionary[elementName];
-                AttributeDictionary.Remove(elementName);
-            }
+        {            
+            string attributes = dictionary.Where(kvp => kvp.Key.EndsWith(AttributeMarker)).Aggregate<KeyValuePair<string, object>, string>(null, (current, kvp) => current + string.Format(" {0}=\"{1}\"", kvp.Key.Replace(AttributeMarker, string.Empty), kvp.Value));
+
             var stringBuilder = new StringBuilder("<{0}{1}>".Fmt(elementName, attributes));
-            foreach (var kvp in dictionary)
+            foreach (var kvp in dictionary.Where(k => !k.Key.EndsWith(AttributeMarker)))
             {
                 if (kvp.Value is IDictionary<string, object>)
                     stringBuilder.Append(ToXml((IDictionary<string, object>)kvp.Value, kvp.Key));
